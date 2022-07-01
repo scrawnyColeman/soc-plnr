@@ -47,7 +47,7 @@ const Header: React.FunctionComponent<HeaderProps> = ({}) => {
         {links
           .filter((link) => link.authed === isAuthed)
           .map((link) => (
-            <Link href={link.path}>
+            <Link key={link.path} href={link.path}>
               <a
                 className={`hover:text-purple-700 ${
                   isActive(link.path) ? "text-purple-300" : ""

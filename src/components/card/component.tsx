@@ -9,10 +9,12 @@ const Card: React.FunctionComponent<CardProps> = ({
   children,
   className = "",
 }) => (
-  <div
-    className={`border-4 border-solid border-gray-700 rounded-lg ${className}`}
-  >
-    {children}
+  <div className="flex">
+    <div
+      className={`block p-6 rounded-lg shadow-lg bg-white max-w-full overflow-scroll ${className}`}
+    >
+      {children}
+    </div>
   </div>
 );
 

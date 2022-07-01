@@ -1,3 +1,4 @@
+import { Header } from "components";
 import React from "react";
 
 export type LayoutProps = {
@@ -9,11 +10,10 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   children,
   className,
 }) => (
-  <div
-    className={`bg-slate-400 fixed top-0 left-0 right-0 bottom-0 ${className}`}
-  >
-    {children}
-  </div>
+  <>
+    <Header />
+    <div className={`bg-slate-800 ${className}`}>{children}</div>
+  </>
 );
 
 export default Layout;

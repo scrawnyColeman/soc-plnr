@@ -9,8 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@hapi/iron": "^7.0.0",
+    "@magic-sdk/admin": "^1.4.1",
     "@next-auth/prisma-adapter": "^1.0.1",
     "@prisma/client": "^4.0.0",
+    "magic-sdk": "^8.1.1",
     "next": "12.2.0",
     "next-auth": "^4.8.0",
     "pg": "^8.7.3",

@@ -1,41 +1,16 @@
-// @ts-nocheck
-import { NextApiHandler } from "next";
-import NextAuth, { NextAuthOptions } from "next-auth";
-import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import NextAuth from "next-auth";
 import GoogleProvider from "next-auth/providers/google";
-import { prisma } from "../../../lib/prisma";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
+import { PrismaClient } from "@prisma/client";
 
-const authHandler: NextApiHandler = (req, res) => {
-  return NextAuth(req, res, options);
-};
-export default authHandler;
+const prisma = new PrismaClient();
 
-const options: NextAuthOptions = {
+export default NextAuth({
+  adapter: PrismaAdapter(prisma),
   providers: [
     GoogleProvider({
-      clientId: process.env.GOOGLE_ID ?? "",
-      clientSecret: process.env.GOOGLE_SECRET ?? "",
+      clientId: process.env.GOOGLE_CLIENT_ID ?? "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
     }),
   ],
-  adapter: PrismaAdapter(prisma),
-  secret: process.env.NEXTAUTH_SECRET,
-  callbacks: {
-    signIn: async ({ account }) => {
-      if (account.provider === "google") {
-        return true;
-      }
-      return false;
-    },
-    jwt: ({ token, account }) => {
-      token = { accessToken: account?.access_token };
-      return token;
-    },
-    session: async ({ session, user }) => {
-      const thisAccount = await prisma.account.findFirst({
-        where: { provider: "google", userId: user.id },
-      });
-      session.user.accessToken = thisAccount?.access_token ?? undefined;
-      return session;
-    },
-  },
-};
+});

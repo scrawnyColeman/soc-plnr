@@ -6,7 +6,7 @@ export const useGetTodos: Hook = () => {
   const [state, setState] = useState<unknown>();
 
   const getTodos = useCallback(async () => {
-    const response = await fetch("/api/todo");
+    const response = await fetch("/api/todos");
     const result = await response.json();
 
     console.log({ result });

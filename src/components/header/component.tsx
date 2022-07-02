@@ -36,7 +36,7 @@ const Header: React.FunctionComponent<HeaderProps> = ({}) => {
 
   return (
     <nav className="w-100 flex justify-between items-center p-3 bg-slate-700 text-violet-100">
-      <div className="flex gap-2">
+      <div className="flex gap-4">
         {links
           .filter((link) => link.authed === isAuthed)
           .map((link) => (

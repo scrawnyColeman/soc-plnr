@@ -1,27 +1,30 @@
 import React, { useEffect } from "react";
 
-import { BasicTodo, Card, Layout } from "components";
-import { useGetMyTodos } from "src/hooks";
+import { Card, Layout } from "components";
+import { useGetTodoById } from "src/hooks";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
 
-export type HomeViewProps = {};
+export type TodoViewProps = {};
 
-const HomeView: React.FunctionComponent<HomeViewProps> = ({}) => {
+const TodoView: React.FunctionComponent<TodoViewProps> = ({}) => {
+  const [todo, fetchTodo] = useGetTodoById();
+
   const session = useSession();
-  const [myTodos, refreshMyTodos] = useGetMyTodos();
+  const { query, isReady } = useRouter();
 
   useEffect(() => {
     (async () => {
-      if (session !== null) {
-        await refreshMyTodos();
+      if (session !== null && isReady) {
+        await fetchTodo(query.id as string);
       }
     })();
-  }, [session]);
+  }, [isReady, session, query]);
 
-  const isLoading = session === null || !myTodos;
+  const isLoading = session === null || !todo;
 
   return (
-    <Layout className="p-6 w-full h-100 flex flex-wrap  gap-2">
+    <Layout className="p-4 w-100 h-100">
       {isLoading ? (
         <svg
           role="status"
@@ -40,16 +43,14 @@ const HomeView: React.FunctionComponent<HomeViewProps> = ({}) => {
           />
         </svg>
       ) : (
-        <Card className="max-h-64 w-full flex flex-col gap-2">
-          {Array.isArray(myTodos)
-            ? myTodos.map((todo: any) => (
-                <BasicTodo key={todo.id} todo={todo} />
-              ))
-            : "Looking a bit bare here. Why not create your first todo?"}
+        <Card className="px-2 py-3 max-h-64 w-100">
+          <h1 className="mt-2  font-bold text-purple-300">
+            <pre>{JSON.stringify(todo, null, 2)}</pre>
+          </h1>
         </Card>
       )}
     </Layout>
   );
 };
 
-export default HomeView;
+export default TodoView;

@@ -8,7 +8,7 @@ export const useGetMyTodos: Hook = () => {
   const session = useSession();
 
   const getTodos = useCallback(async () => {
-    const response = await fetch("/api/todo/me");
+    const response = await fetch("/api/todos/me");
     const result = await response.json();
 
     console.log({ result });

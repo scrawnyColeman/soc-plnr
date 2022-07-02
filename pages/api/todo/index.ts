@@ -2,9 +2,9 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 import { validateSession } from "lib/validateSession";
 
-import { createTodo } from "src/services/todo/create";
-import { getTodos } from "src/services/todo/get";
 import { getMe } from "src/services/me/getMe";
+import { createTodo } from "src/services/todo/create";
+import { getTodoById } from "src/services/todo/get";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   console.log({ req });
@@ -15,8 +15,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     const requester = await getMe(session);
 
     if (req.method === "GET") {
-      const response = await getTodos();
-      res.status(200).json(response);
+      if ("t" in req.query && requester?.id) {
+        const response = await getTodoById(
+          req.query.t as string,
+          requester?.id
+        );
+        res.status(200).json(response);
+      } else {
+        throw new Error("Didn't receive a todoId");
+      }
     } else if (req.method === "POST") {
       const response = await createTodo({
         authorEmail: requester?.email as string,

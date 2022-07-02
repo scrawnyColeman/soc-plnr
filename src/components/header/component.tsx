@@ -2,7 +2,7 @@
 import React from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { signIn, signOut, useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { links } from "./constants";
 
 type HeaderProps = {};
@@ -35,9 +35,9 @@ const Header: React.FunctionComponent<HeaderProps> = ({}) => {
     <div>loading</div>
   ) : (
     <div className="right">
-      <button onClick={() => signIn("google")}>
+      <Link href="/api/auth/signin">
         <a data-active={isActive("/signup")}>Log in</a>
-      </button>
+      </Link>
     </div>
   );
 

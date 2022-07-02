@@ -26,6 +26,10 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       res.status(202).json(response);
     } else if (req.method === "DELETE") {
       // handle delete case
+    } else if (req.method === "PATCH") {
+      // handle edit case
+    } else {
+      throw new Error("Unsupported HTTP Method");
     }
   } catch (e) {
     const message = (e as Error).message;

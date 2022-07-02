@@ -11,7 +11,7 @@ const Card: React.FunctionComponent<CardProps> = ({
 }) => (
   <div className="flex">
     <div
-      className={`block p-6 rounded-lg shadow-lg bg-white max-w-full overflow-scroll ${className}`}
+      className={`block p-6 rounded-lg shadow-lg bg-white max-w-full overflow-auto ${className}`}
     >
       {children}
     </div>

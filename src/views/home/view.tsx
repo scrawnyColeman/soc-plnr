@@ -40,7 +40,7 @@ const HomeView: React.FunctionComponent<HomeViewProps> = ({}) => {
           />
         </svg>
       ) : (
-        <Card className="px-2 py-3 max-h-64">
+        <Card className="px-2 py-3 max-h-64 w-100">
           <h1 className="mt-2  font-bold text-purple-300">
             <pre>{JSON.stringify(myTodos, null, 2)}</pre>
           </h1>

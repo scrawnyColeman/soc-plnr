@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { NextApiHandler } from "next";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
@@ -19,12 +20,22 @@ const options: NextAuthOptions = {
   adapter: PrismaAdapter(prisma),
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    //@ts-ignore
-    async signIn({ account, profile }) {
+    signIn: async ({ account }) => {
       if (account.provider === "google") {
-        return profile.email_verified && profile?.email?.endsWith("@gmail.com");
+        return true;
       }
-      return true; // Do different verification for other providers that don't have `email_verified`
+      return false;
+    },
+    jwt: ({ token, account }) => {
+      token = { accessToken: account?.access_token };
+      return token;
+    },
+    session: async ({ session, user }) => {
+      const thisAccount = await prisma.account.findFirst({
+        where: { provider: "google", userId: user.id },
+      });
+      session.user.accessToken = thisAccount?.access_token ?? undefined;
+      return session;
     },
   },
 };

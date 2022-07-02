@@ -35,13 +35,16 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
+  id                  String                @id @default(cuid())
+  name                String?
+  email               String?               @unique
+  emailVerified       DateTime?
+  image               String?
+  accounts            Account[]
+  sessions            Session[]
+  ParticipantsOnTodos ParticipantsOnTodos[]
+  Todo                Todo[]
+
 }
 
 model VerificationToken {
@@ -50,4 +53,26 @@ model VerificationToken {
   expires    DateTime
 
   @@unique([identifier, token])
+}
+
+model Todo {
+  id          String    @id @default(cuid())
+  title       String
+  content     String?
+  completedBy DateTime?
+  authorId    String
+  author      User      @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  assignees ParticipantsOnTodos[]
+}
+
+model ParticipantsOnTodos {
+  todo       Todo     @relation(fields: [todoId], references: [id])
+  todoId     String // relation scalar field (used in the `@relation` attribute above)
+  user       User     @relation(fields: [userId], references: [id])
+  userId     String // relation scalar field (used in the `@relation` attribute above)
+  assignedAt DateTime @default(now())
+  assignedBy String
+
+  @@id([todoId, userId])
 }

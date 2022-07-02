@@ -7,11 +7,11 @@ type Args = {
 
 type Hook = () => [unknown, (body: Args) => Promise<void>];
 
-export const useCreatePost: Hook = () => {
+export const useCreateTodo: Hook = () => {
   const [state, setState] = useState<unknown>();
 
   const createPost = useCallback(async (body: Args) => {
-    const response = await fetch("/api/post", {
+    const response = await fetch("/api/todo", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),

@@ -28,6 +28,12 @@
       "views": [
         "src/views/index.ts"
       ],
+      "lib/*": [
+        "./lib/*"
+      ],
+      "lib": [
+        "./lib/index.ts"
+      ],
     }
   },
   "include": ["next-env.d.ts",

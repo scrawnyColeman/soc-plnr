@@ -13,12 +13,17 @@ type State = {
 
 type Hook = () => [State, () => Promise<void>];
 
-export const useDashboardMetrics: Hook = () => {
+export const useCountTodos: Hook = () => {
   const [state, setState] = useState<State>({ todos: [] });
 
   const ids = [useId(), useId()];
 
   const refresh = useCallback(async () => {
+    const response = await fetch("/api/todo/count");
+    const result = await response.json();
+    console.log({ response });
+    console.log({ result });
+
     setState(() => ({
       todos: [
         {

@@ -2,21 +2,19 @@
 import React, { useState } from "react";
 import { Layout } from "components";
 import Router from "next/router";
-import { useCreatePost } from "src/hooks";
+import { useCreateTodo } from "src/hooks";
 
 const Draft: React.FC = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
-  const [state, createPost] = useCreatePost();
+  const [created, createTodo] = useCreateTodo();
 
   const submitData = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
-      await createPost({ title, content });
-      if (Boolean(state)) {
-        await Router.push("/drafts");
-      }
+      await createTodo({ title, content });
+      Router.push("/");
     } catch (error) {
       console.error(error);
     }
@@ -41,7 +39,7 @@ const Draft: React.FC = () => {
             rows={8}
             value={content}
           />
-          <input disabled={!content || !title} type="submit" value="Create" />
+          <button onSubmit={submitData}>Create</button>
           <a className="back" href="#" onClick={() => Router.push("/")}>
             or Cancel
           </a>

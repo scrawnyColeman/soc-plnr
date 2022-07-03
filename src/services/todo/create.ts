@@ -1,16 +1,12 @@
 import { prisma } from "lib/prisma";
 
 type CreateTodo = {
-  authorEmail: string;
+  authorId: string;
   title: string;
   content: string;
 };
 
-export const createTodo = async ({
-  authorEmail,
-  title,
-  content,
-}: CreateTodo) => {
+export const createTodo = async ({ authorId, title, content }: CreateTodo) => {
   const lifeSpan = 1000 * 60 * 60 * 24 * 2; // two days
   const completedBy = new Date(Date.now() + lifeSpan);
 
@@ -19,7 +15,8 @@ export const createTodo = async ({
       title,
       content,
       completedBy,
-      author: { connect: { email: authorEmail } },
+      authorId,
+      assignees: { connect: { id: authorId } },
     },
   });
 };

@@ -1,7 +1,12 @@
-import React, { useEffect } from "react";
+import React, {
+  ChangeEventHandler,
+  FormEventHandler,
+  useEffect,
+  useState,
+} from "react";
 
 import { Card, Layout } from "components";
-import { useGetTodoById } from "src/hooks";
+import { useAddAssignee, useGetTodoById } from "src/hooks";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
@@ -9,6 +14,8 @@ export type TodoViewProps = {};
 
 const TodoView: React.FunctionComponent<TodoViewProps> = ({}) => {
   const [todo, fetchTodo] = useGetTodoById();
+  const [, addAssignee] = useAddAssignee();
+  const [email, setEmail] = useState<string>();
 
   const session = useSession();
   const { query, isReady } = useRouter();
@@ -20,6 +27,19 @@ const TodoView: React.FunctionComponent<TodoViewProps> = ({}) => {
       }
     })();
   }, [isReady, session, query]);
+
+  const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handleSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault();
+
+    if (typeof email === "string" && Boolean(email.length)) {
+      addAssignee(query.id as string, email);
+    }
+    return;
+  };
 
   const isLoading = session === null || !todo;
 
@@ -43,11 +63,17 @@ const TodoView: React.FunctionComponent<TodoViewProps> = ({}) => {
           />
         </svg>
       ) : (
-        <Card className="px-2 py-3 max-h-64 w-100">
-          <h1 className="mt-2  font-bold text-purple-300">
-            <pre>{JSON.stringify(todo, null, 2)}</pre>
-          </h1>
-        </Card>
+        <>
+          <Card className="px-2 py-3 max-h-64 w-100">
+            <h1 className="mt-2  font-bold text-purple-300">
+              <pre>{JSON.stringify(todo, null, 2)}</pre>
+            </h1>
+          </Card>
+          <form onSubmit={handleSubmit}>
+            <input value={email} onChange={handleChange} autoFocus />
+            <button type="submit">Assign email</button>
+          </form>
+        </>
       )}
     </Layout>
   );

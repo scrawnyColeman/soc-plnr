@@ -14,3 +14,8 @@ export const getTodoById = async (todoId: string, requesterId: string) => {
     "Don't be sneaky. You'll have to ask permission to see this user's todos"
   );
 };
+
+export const getAssignedTodos = async (userId: string) =>
+  await prisma.todo.findMany({
+    where: { assignees: { some: { id: userId } } },
+  });

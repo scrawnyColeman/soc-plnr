@@ -26,7 +26,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       }
     } else if (req.method === "POST") {
       const response = await createTodo({
-        authorEmail: requester?.email as string,
+        authorId: requester?.id as string,
         content: req.body.content,
         title: req.body.title,
       });

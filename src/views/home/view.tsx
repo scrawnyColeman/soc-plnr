@@ -3,17 +3,19 @@ import React, { useEffect } from "react";
 import { BasicTodo, Card, Layout } from "components";
 import { useGetMyTodos } from "src/hooks";
 import { useSession } from "next-auth/react";
+import { useGetAssignedTodos } from "src/hooks/useGetAssignedTodos";
 
 export type HomeViewProps = {};
 
 const HomeView: React.FunctionComponent<HomeViewProps> = ({}) => {
   const session = useSession();
   const [myTodos, refreshMyTodos] = useGetMyTodos();
+  const [myAssignedTodos, refreshAssignedTodos] = useGetAssignedTodos();
 
   useEffect(() => {
     (async () => {
       if (session !== null) {
-        await refreshMyTodos();
+        await Promise.all([refreshMyTodos(), refreshAssignedTodos()]);
       }
     })();
   }, [session]);
@@ -40,13 +42,24 @@ const HomeView: React.FunctionComponent<HomeViewProps> = ({}) => {
           />
         </svg>
       ) : (
-        <Card className="max-h-64 w-full flex flex-col gap-2">
-          {Array.isArray(myTodos)
-            ? myTodos.map((todo: any) => (
-                <BasicTodo key={todo.id} todo={todo} />
-              ))
-            : "Looking a bit bare here. Why not create your first todo?"}
-        </Card>
+        <>
+          <Card className="max-h-64 w-full flex flex-col gap-2">
+            Todos:
+            {Array.isArray(myTodos)
+              ? myTodos.map((todo: any) => (
+                  <BasicTodo key={todo.id} todo={todo} />
+                ))
+              : "Looking a bit bare here. Why not create your first todo?"}
+          </Card>
+          <Card className="max-h-64 w-full flex flex-col gap-2">
+            Assigned:
+            {Array.isArray(myAssignedTodos)
+              ? myAssignedTodos.map((todo: any) => (
+                  <BasicTodo key={todo.id} todo={todo} />
+                ))
+              : "Looking a bit bare here. Why not assign your first todo?"}
+          </Card>
+        </>
       )}
     </Layout>
   );

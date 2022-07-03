@@ -10,7 +10,7 @@ type Hook = () => [unknown, (body: Args) => Promise<void>];
 export const useCreateTodo: Hook = () => {
   const [state, setState] = useState<unknown>();
 
-  const createPost = useCallback(async (body: Args) => {
+  const createTodo = useCallback(async (body: Args) => {
     const response = await fetch("/api/todo", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -25,5 +25,5 @@ export const useCreateTodo: Hook = () => {
     }
   }, []);
 
-  return [state, createPost];
+  return [state, createTodo];
 };

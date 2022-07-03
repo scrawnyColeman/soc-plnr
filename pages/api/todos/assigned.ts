@@ -16,9 +16,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method === "GET") {
       const response = await getAssignedTodos(requester?.id as string);
       res.status(200).json(response);
+    } else {
+      throw new Error("Can only use GET on this path");
     }
-
-    throw new Error("Can only use GET on this path");
   } catch (e) {
     const message = (e as Error).message;
     console.log({ message });

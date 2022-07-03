@@ -36,7 +36,7 @@ const TodoView: React.FunctionComponent<TodoViewProps> = ({}) => {
     e.preventDefault();
 
     if (typeof email === "string" && Boolean(email.length)) {
-      addAssignee(query.id as string, email);
+      await addAssignee(query.id as string, email);
     }
     return;
   };

@@ -34,6 +34,18 @@
       "lib": [
         "./lib/index.ts"
       ],
+      "hooks/*": [
+        "src/hooks/*"
+      ],
+      "hooks": [
+        "src/hooks/index.ts"
+      ],
+      "services/*": [
+        "src/services/*"
+      ],
+      "services": [
+        "src/services/index.ts"
+      ],
     }
   },
   "include": ["next-env.d.ts",

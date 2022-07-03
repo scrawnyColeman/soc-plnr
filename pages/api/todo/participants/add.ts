@@ -16,6 +16,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     if (req.method !== "PUT") {
       throw new Error("Can only use PUT on this path");
     }
+
     const response = addParticipantByEmail({
       requesterId: requester?.id as string,
       particpantEmail: req.body.email,

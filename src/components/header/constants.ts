@@ -9,4 +9,9 @@ export const links = [
     text: "Create",
     authed: true,
   },
+  {
+    path: "/social",
+    text: "Social",
+    authed: true,
+  },
 ];

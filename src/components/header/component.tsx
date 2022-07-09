@@ -19,7 +19,9 @@ const Header: React.FunctionComponent<HeaderProps> = ({}) => {
 
   const right = isAuthed ? (
     <div className="flex gap-3">
-      <p>Hey, {(session?.user?.name as string).split(" ")[0]}!</p>
+      <p className="invisible md:visible">
+        Hey, {(session?.user?.name as string).split(" ")[0]}!
+      </p>
       <button className="hover:text-purple-500" onClick={() => signOut()}>
         <a>Log out</a>
       </button>

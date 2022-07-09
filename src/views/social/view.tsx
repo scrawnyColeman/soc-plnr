@@ -45,7 +45,7 @@ const SocialView: React.FunctionComponent<SocialViewProps> = ({}) => {
 
   return (
     <Layout className="p-6 w-full h-100 flex flex-wrap  gap-2">
-      <Card className="max-h-64 w-full flex flex-col gap-2 ">
+      <Card className=" w-full flex flex-col gap-2 mt-2">
         {isLoading ? (
           <svg
             role="status"
@@ -109,11 +109,14 @@ const SocialView: React.FunctionComponent<SocialViewProps> = ({}) => {
           </div>
         )}
       </Card>
-      <div className="flex items-center gap-3">
+      <div className="justify-center flex-col flex items-center gap-3 mt-3 md:flex-row md:justify-start ">
         <span className="text-fuchsia-50">
           Enter your friends email to follow and sync up with their day
         </span>
-        <form className="flex gap-2 py-2 w-1/2" onSubmit={handleSubmit}>
+        <form
+          className="flex gap-2 py-2 w-full md:w-1/2"
+          onSubmit={handleSubmit}
+        >
           <input
             className="rounded-lg py-1 px-3"
             value={email}

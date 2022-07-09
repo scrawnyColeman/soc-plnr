@@ -35,16 +35,17 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String      @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?     @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
-  todos         Todo[]
-  followedBy    Follows[] @relation("following")
-  following     Follows[] @relation("follower")
+  Task          Task[]
+  followedBy    Follows[]   @relation("following")
+  following     Follows[]   @relation("follower")
+  Assignees     Assignees[]
 }
 
 model Follows {
@@ -64,11 +65,37 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model Todo {
-  id          String    @id @default(cuid())
+model Task {
+  id          String     @id @default(cuid())
   title       String
   content     String?
   completedBy DateTime?
   authorId    String
-  assignees   User[]
+  steps       TaskStep[]
+  User        User?      @relation(fields: [userId], references: [id])
+  userId      String?
+}
+
+model TaskStep {
+  id            String      @id @default(cuid())
+  title         String
+  content       String?
+  completedBy   DateTime?
+  Assignees     Assignees[]
+  successor     TaskStep?   @relation("TaskHistory")
+  predecessorId String?     @unique
+  predecessor   TaskStep?   @relation("TaskHistory", fields: [predecessorId], references: [id])
+  Task          Task?       @relation(fields: [taskId], references: [id])
+  taskId        String?
+  isCompleted   Boolean     @default(false)
+  isInitialStep Boolean     @default(false)
+}
+
+model Assignees {
+  User       User     @relation(fields: [userId], references: [id])
+  userId     String
+  TaskStep   TaskStep @relation(fields: [taskStepId], references: [id])
+  taskStepId String
+
+  @@id([userId, taskStepId])
 }

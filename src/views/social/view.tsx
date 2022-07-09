@@ -16,7 +16,7 @@ const SocialView: React.FunctionComponent<SocialViewProps> = ({}) => {
   const session = useSession();
   const [email, setEmail] = useState<string>();
 
-  const [loading, state, refreshFollows] = useGetFollows();
+  const [loading, follows, refreshFollows] = useGetFollows();
   const followUser = useFollowUser();
 
   useEffect(() => {
@@ -68,10 +68,11 @@ const SocialView: React.FunctionComponent<SocialViewProps> = ({}) => {
             <div className="flex flex-col gap-2">
               <h3>Followers:</h3>
               <div className="flex flex-wrap gap-4">
-                {state.followers.map(({ follower }) => (
+                {follows.followers.map(({ follower }) => (
                   <span
                     className="flex items-center h-10 gap-2"
                     key={`followedBy-${follower.id}`}
+                    title={follower.email}
                   >
                     <img
                       className="rounded-full"
@@ -84,13 +85,15 @@ const SocialView: React.FunctionComponent<SocialViewProps> = ({}) => {
                 ))}
               </div>
             </div>
+            <hr className="my-1" />
             <div className="flex flex-col gap-2">
               <h3>Following</h3>
               <div className="flex flex-wrap gap-4">
-                {state.following.map(({ following }) => (
+                {follows.following.map(({ following }) => (
                   <span
                     className="flex items-center h-10 gap-2"
                     key={`following-${following.id}`}
+                    title={following.email}
                   >
                     <img
                       className="rounded-full"
@@ -122,7 +125,7 @@ const SocialView: React.FunctionComponent<SocialViewProps> = ({}) => {
             className="rounded-lg py-1 px-3 bg-white hover:bg-slate-100"
             type="submit"
           >
-            Assign email
+            Follow friend
           </button>
         </form>
       </div>

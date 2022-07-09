@@ -1,26 +1,24 @@
 import React, { useEffect } from "react";
 
-import { BasicTodo, Card, Layout } from "components";
-import { useGetMyTodos } from "src/hooks";
+import { BasicTask, Card, Layout } from "components";
 import { useSession } from "next-auth/react";
-import { useGetAssignedTodos } from "src/hooks/useGetAssignedTodos";
+import { useGetAssignedTasks, useGetMyTasks } from "hooks";
 
 export type HomeViewProps = {};
 
 const HomeView: React.FunctionComponent<HomeViewProps> = ({}) => {
   const session = useSession();
-  const [myTodos, refreshMyTodos] = useGetMyTodos();
-  const [myAssignedTodos, refreshAssignedTodos] = useGetAssignedTodos();
+  const [myAssignedTasks, refreshAssignedTasks] = useGetAssignedTasks();
 
   useEffect(() => {
     (async () => {
       if (session !== null) {
-        await Promise.all([refreshMyTodos(), refreshAssignedTodos()]);
+        await refreshAssignedTasks();
       }
     })();
   }, [session]);
 
-  const isLoading = session === null || !myTodos;
+  const isLoading = session === null || !myAssignedTasks;
 
   return (
     <Layout className="p-6 w-full h-100 flex flex-wrap  gap-2">
@@ -42,24 +40,16 @@ const HomeView: React.FunctionComponent<HomeViewProps> = ({}) => {
           />
         </svg>
       ) : (
-        <>
-          <Card className="max-h-64 w-full flex flex-col gap-2">
-            Todos:
-            {Array.isArray(myTodos)
-              ? myTodos.map((todo: any) => (
-                  <BasicTodo key={todo.id} todo={todo} />
-                ))
-              : "Looking a bit bare here. Why not create your first todo?"}
-          </Card>
-          <Card className="max-h-64 w-full flex flex-col gap-2">
-            Assigned:
-            {Array.isArray(myAssignedTodos)
-              ? myAssignedTodos.map((todo: any) => (
-                  <BasicTodo key={todo.id} todo={todo} />
-                ))
-              : "Looking a bit bare here. Why not assign your first todo?"}
-          </Card>
-        </>
+        <Card className="w-full flex flex-col gap-2">
+          Your tasks:
+          {Array.isArray(myAssignedTasks)
+            ? myAssignedTasks.map(
+                (task: { title: string; content: string; id: string }) => (
+                  <BasicTask key={task.id} task={task} />
+                )
+              )
+            : "Looking a bit bare here. Why not create your first task?"}
+        </Card>
       )}
     </Layout>
   );

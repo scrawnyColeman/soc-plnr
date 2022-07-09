@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
-import { TodoView } from "views";
+import { TaskView } from "views";
 
-const Todo: NextPage = () => <TodoView />;
+const Task: NextPage = () => <TaskView />;
 
-export default Todo;
+export default Task;

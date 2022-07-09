@@ -1,19 +1,18 @@
-// pages/create.tsx
 import React, { useState } from "react";
 import { Layout } from "components";
 import Router from "next/router";
-import { useCreateTodo } from "src/hooks";
+import { useCreateTask } from "src/hooks";
 
 const CreateView: React.FC = () => {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
-  const [created, createTodo] = useCreateTodo();
+  const [created, createTask] = useCreateTask();
 
-  const submitData = async (e: React.SyntheticEvent) => {
+  const submitData: React.FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault();
     try {
-      await createTodo({ title, content });
+      await createTask({ title, content });
       Router.push("/");
     } catch (error) {
       console.error(error);
@@ -39,7 +38,7 @@ const CreateView: React.FC = () => {
             rows={8}
             value={content}
           />
-          <button onSubmit={submitData}>Create</button>
+          <button type="submit">Create</button>
           <a className="back" href="#" onClick={() => Router.push("/")}>
             or Cancel
           </a>

@@ -8,6 +8,7 @@ import { useSession } from "next-auth/react";
 
 import { Card, Layout } from "components";
 import { useGetFollows, useFollowUser } from "src/hooks";
+import { profilePic } from "assets";
 
 export type SocialViewProps = {};
 
@@ -16,7 +17,7 @@ const SocialView: React.FunctionComponent<SocialViewProps> = ({}) => {
   const [email, setEmail] = useState<string>();
 
   const [loading, state, refreshFollows] = useGetFollows();
-  const [followedState, followUser] = useFollowUser();
+  const followUser = useFollowUser();
 
   useEffect(() => {
     (async () => {
@@ -44,7 +45,7 @@ const SocialView: React.FunctionComponent<SocialViewProps> = ({}) => {
 
   return (
     <Layout className="p-6 w-full h-100 flex flex-wrap  gap-2">
-      <Card className="max-h-64 w-full flex flex-col gap-2">
+      <Card className="max-h-64 w-full flex flex-col gap-2 ">
         {isLoading ? (
           <svg
             role="status"
@@ -63,7 +64,46 @@ const SocialView: React.FunctionComponent<SocialViewProps> = ({}) => {
             />
           </svg>
         ) : (
-          <pre>{JSON.stringify(state, null, 2)}</pre>
+          <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-2">
+              <h3>Followers:</h3>
+              <div className="flex flex-wrap gap-4">
+                {state.followers.map(({ follower }) => (
+                  <span
+                    className="flex items-center h-10 gap-2"
+                    key={`followedBy-${follower.id}`}
+                  >
+                    <img
+                      className="rounded-full"
+                      width={48}
+                      height={48}
+                      src={follower.image || profilePic.src}
+                    />
+                    <p>{follower.name}</p>
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="flex flex-col gap-2">
+              <h3>Following</h3>
+              <div className="flex flex-wrap gap-4">
+                {state.following.map(({ following }) => (
+                  <span
+                    className="flex items-center h-10 gap-2"
+                    key={`following-${following.id}`}
+                  >
+                    <img
+                      className="rounded-full"
+                      width={48}
+                      height={48}
+                      src={following.image || profilePic.src}
+                    />
+                    <p>{following.name}</p>
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
         )}
       </Card>
       <div className="flex items-center gap-3">

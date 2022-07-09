@@ -5,10 +5,9 @@ type Args = {
   email: string;
 };
 
-type Hook = () => [unknown, (body: Args) => Promise<void>];
+type Hook = () => (body: Args) => Promise<void>;
 
 export const useFollowUser: Hook = () => {
-  const [state, setState] = useState<unknown>();
   const { setAlert } = useAlert();
 
   const followUser = useCallback(async (body: Args) => {
@@ -21,14 +20,10 @@ export const useFollowUser: Hook = () => {
 
     console.log({ result });
 
-    if (response.ok) {
-      setState(result);
-    } else {
-      if (result.message) {
-        setAlert({ text: result.message, type: "error" });
-      }
+    if (!response.ok && result.message) {
+      setAlert({ text: result.message, type: "error" });
     }
   }, []);
 
-  return [state, followUser];
+  return followUser;
 };

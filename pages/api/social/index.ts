@@ -20,6 +20,7 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         getFollowing(id),
         getFollowers(id),
       ]);
+      console.log({ followers, following });
       res.status(200).json({ following, followers });
     } else if (req.method === "PUT") {
       const response = await followUser(req, id);

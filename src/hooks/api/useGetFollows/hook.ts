@@ -1,10 +1,27 @@
 import { useSession } from "next-auth/react";
 import { useCallback, useState } from "react";
 
-type Hook = () => [boolean, unknown, () => Promise<unknown>];
+type Hook = () => [boolean, State, () => Promise<State>];
 
+type State = {
+  following: Following[];
+  followers: Follower[];
+};
+
+type User = {
+  id: string;
+  name: string;
+  image: string | null;
+};
+
+type Following = {
+  following: User;
+};
+type Follower = {
+  follower: User;
+};
 export const useGetFollows: Hook = () => {
-  const [state, setState] = useState<unknown>();
+  const [state, setState] = useState<State>({ followers: [], following: [] });
   const [isLoading, setLoading] = useState<boolean>(false);
   const session = useSession();
 
@@ -12,7 +29,7 @@ export const useGetFollows: Hook = () => {
     setLoading(true);
 
     const response = await fetch("/api/social");
-    const result = await response.json();
+    const result = (await response.json()) as State;
 
     console.log({ result });
 

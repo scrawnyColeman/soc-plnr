@@ -34,9 +34,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
         title: req.body.title,
       });
       res.status(202).json(response);
-    } else if (req.method === "DELETE") {
-      // TODO - Implement a DELETE resolver
-      // handle delete case
     } else if (req.method === "PUT") {
       // TODO - Implement a PUT resolver
       const body = JSON.parse(req.body);
@@ -50,11 +47,15 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
       throw new Error("Unsupported HTTP Method");
     }
   } catch (e) {
-    const message = (e as Error).message;
-    console.log({ message });
-    res.status(500).json({
-      message,
-    });
+    if (e instanceof Error) {
+      const { message } = e;
+      console.log({ message });
+      res.status(500).json({
+        message,
+      });
+    }
+    console.log(e);
+    res.status(500).json({ message: "Oops. Something went wrong!" });
   }
 };
 

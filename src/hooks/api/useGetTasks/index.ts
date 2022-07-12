@@ -1,1 +1,0 @@
-export { useGetTasks } from "./hook";

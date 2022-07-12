@@ -1,7 +1,5 @@
 import { prisma } from "lib/prisma";
 
-export const getTasks = async () => await prisma.task.findMany({ select: {} });
-
 export const getTasksByAuthor = async (authorId: string) =>
   await prisma.taskStep.findMany({
     where: { Task: { authorId } },

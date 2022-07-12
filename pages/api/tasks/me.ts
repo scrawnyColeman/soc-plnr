@@ -10,23 +10,26 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   console.log({ res });
 
   try {
-    const session = await validateSession(req);
-    console.log({ session });
-    const requester = await getMe(session);
-    console.log({ requester });
-
     if (req.method !== "GET") {
-      throw new Error("Can only use GET on this path");
+      throw new Error("Unsupported HTTP method.");
     }
 
-    const response = await getTasksByAuthor(requester?.id as string);
+    const session = await validateSession(req);
+    const me = await getMe(session);
+    const id = me?.id as string;
+    const response = await getTasksByAuthor(id);
+
     res.status(200).json(response);
   } catch (e) {
-    const message = (e as Error).message;
-    console.log({ message });
-    res.status(500).json({
-      message,
-    });
+    if (e instanceof Error) {
+      const { message } = e;
+      console.log({ message });
+      res.status(500).json({
+        message,
+      });
+    }
+    console.log(e);
+    res.status(500).json({ message: "Oops. Something went wrong!" });
   }
 };
 

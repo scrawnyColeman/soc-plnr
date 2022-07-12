@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 
 import { BasicTask, Card, Layout } from "components";
 import { useSession } from "next-auth/react";
-import { useGetAssignedTasks, useGetMyTasks } from "hooks";
+import { useGetAssignedTasks } from "hooks";
 
 export type HomeViewProps = {};
 
@@ -21,7 +21,7 @@ const HomeView: React.FunctionComponent<HomeViewProps> = ({}) => {
   const isLoading = session === null || !myAssignedTasks;
 
   return (
-    <Layout className="p-6 w-full h-100 flex flex-wrap  gap-2">
+    <Layout className="p-6 w-full h-100 flex flex-wrap gap-2">
       {isLoading ? (
         <svg
           role="status"
@@ -40,16 +40,28 @@ const HomeView: React.FunctionComponent<HomeViewProps> = ({}) => {
           />
         </svg>
       ) : (
-        <Card className="w-full flex flex-col gap-2">
-          Your tasks:
-          {Array.isArray(myAssignedTasks)
-            ? myAssignedTasks.map(
-                (task: { title: string; content: string; id: string }) => (
-                  <BasicTask key={task.id} task={task} />
+        <>
+          <Card className="w-full flex flex-col gap-2 md:w-[calc(50%-0.25rem)]">
+            Your tasks:
+            {Array.isArray(myAssignedTasks)
+              ? myAssignedTasks.map(
+                  (task: { title: string; content: string; id: string }) => (
+                    <BasicTask key={task.id} task={task} />
+                  )
                 )
-              )
-            : "Looking a bit bare here. Why not create your first task?"}
-        </Card>
+              : "Looking a bit bare here. Why not create your first task?"}
+          </Card>
+          <Card className="w-full flex flex-col gap-2 md:w-[calc(50%-0.25rem)]">
+            {"{{friendName}}"}'s day:
+            {Array.isArray(myAssignedTasks)
+              ? myAssignedTasks.map(
+                  (task: { title: string; content: string; id: string }) => (
+                    <BasicTask key={task.id} task={task} />
+                  )
+                )
+              : "Looking a bit bare here. Why not create your first task?"}
+          </Card>
+        </>
       )}
     </Layout>
   );

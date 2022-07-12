@@ -11,7 +11,7 @@ export const useFollowUser: Hook = () => {
   const { setAlert } = useAlert();
 
   const followUser = useCallback(async (body: Args) => {
-    const response = await fetch("/api/social", {
+    const response = await fetch("/api/social/follow", {
       method: "PUT",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),

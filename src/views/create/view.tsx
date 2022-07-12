@@ -21,7 +21,7 @@ const CreateView: React.FC = () => {
 
   return (
     <Layout>
-      <div className="bg-blue-200 p-4">
+      <div className="p-4 text-fuchsia-100">
         <form onSubmit={submitData}>
           <h1>New Draft</h1>
           <input
@@ -29,49 +29,28 @@ const CreateView: React.FC = () => {
             onChange={(e) => setTitle(e.target.value)}
             placeholder="Title"
             type="text"
+            className="w-full p-2 my-2 rounded-md border border-solid border-b-neutral-800"
             value={title}
           />
           <textarea
             cols={50}
+            className="w-full p-2 rounded-md"
             onChange={(e) => setContent(e.target.value)}
             placeholder="Content"
             rows={8}
             value={content}
           />
-          <button type="submit">Create</button>
-          <a className="back" href="#" onClick={() => Router.push("/")}>
+          <button
+            type="submit"
+            className="bg-neutral-50 text-neutral-600 border-none py-1 px-2 rounded-md"
+          >
+            Create
+          </button>
+          <a className="ml-1" href="#" onClick={() => Router.push("/")}>
             or Cancel
           </a>
         </form>
       </div>
-      <style>{`
-        .page {
-          background: var(--geist-background);
-          padding: 3rem;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-
-        input[type="text"],
-        textarea {
-          width: 100%;
-          padding: 0.5rem;
-          margin: 0.5rem 0;
-          border-radius: 0.25rem;
-          border: 0.125rem solid rgba(0, 0, 0, 0.2);
-        }
-
-        input[type="submit"] {
-          background: #ececec;
-          border: 0;
-          padding: 1rem 2rem;
-        }
-
-        .back {
-          margin-left: 1rem;
-        }
-      `}</style>
     </Layout>
   );
 };

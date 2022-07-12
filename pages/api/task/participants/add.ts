@@ -10,25 +10,32 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   console.log({ res });
 
   try {
-    const session = await validateSession(req);
-    const requester = await getMe(session);
-
     if (req.method !== "PUT") {
-      throw new Error("Can only use PUT on this path");
+      throw new Error("Unsupported HTTP method.");
     }
 
-    const response = addParticipantByEmail({
-      requesterId: requester?.id as string,
+    const session = await validateSession(req);
+    const me = await getMe(session);
+    const id = me?.id as string;
+
+    const body = {
+      requesterId: id,
       participantEmail: req.body.email,
       taskStepId: req.body.taskStepId,
-    });
+    };
+
+    const response = addParticipantByEmail(body);
     res.status(200).json(response);
   } catch (e) {
-    const message = (e as Error).message;
-    console.log({ message });
-    res.status(500).json({
-      message,
-    });
+    if (e instanceof Error) {
+      const { message } = e;
+      console.log({ message });
+      res.status(500).json({
+        message,
+      });
+    }
+    console.log(e);
+    res.status(500).json({ message: "Oops. Something went wrong!" });
   }
 };
 

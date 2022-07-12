@@ -9,6 +9,8 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   console.log({ req });
   console.log({ res });
 
+  // TODO - Handle completed vs in progress
+  // TODO - Handle social feed / public vs private tasks
   try {
     const session = await validateSession(req);
     const requester = await getMe(session);
@@ -25,9 +27,9 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(500).json({
       message,
     });
-  } finally {
-    prisma?.$disconnect();
   }
 };
 
 export default handler;
+
+export const config = {};

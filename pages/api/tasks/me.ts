@@ -27,8 +27,6 @@ const handler = async (req: NextApiRequest, res: NextApiResponse) => {
     res.status(500).json({
       message,
     });
-  } finally {
-    prisma?.$disconnect();
   }
 };
 

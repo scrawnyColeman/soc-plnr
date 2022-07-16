@@ -1,21 +1,23 @@
 import React, {
   ChangeEventHandler,
   FormEventHandler,
+  FunctionComponent,
   MouseEventHandler,
   useEffect,
   useState,
 } from "react";
-
-import { Card, Layout } from "components";
-import { useAddAssignee, useGetTaskStepById } from "src/hooks";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+
+import { useAddAssignee, useGetTaskStepById, useUpdateTaskById } from "hooks";
+import { Card, Button } from "atoms";
+import { Layout } from "organisms";
+
 import { profilePic } from "assets";
-import { useUpdateTaskById } from "hooks/api/useUpdateTaskById";
 
 export type TaskViewProps = {};
 
-const TaskView: React.FunctionComponent<TaskViewProps> = ({}) => {
+const TaskView: FunctionComponent<TaskViewProps> = ({}) => {
   const [taskStep, fetchTaskStep] = useGetTaskStepById();
   const updateTask = useUpdateTaskById();
   const [, addAssignee] = useAddAssignee();
@@ -61,7 +63,7 @@ const TaskView: React.FunctionComponent<TaskViewProps> = ({}) => {
       {isLoading ? (
         <svg
           role="status"
-          className="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+          className="w-8 h-8 mr-2 text-gray-200 animate-spin  fill-blue-600"
           viewBox="0 0 100 101"
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
@@ -115,22 +117,22 @@ const TaskView: React.FunctionComponent<TaskViewProps> = ({}) => {
               onChange={handleChange}
               autoFocus
             />
-            <button
+            <Button
               className="text-fuchsia-50 border border-solid rounded-lg border-fuchsia-50 p-2"
               type="submit"
             >
               Assign email
-            </button>
+            </Button>
           </form>
 
           <hr className="my-2" />
 
-          <button
+          <Button
             className="text-fuchsia-50 border border-solid rounded-lg border-fuchsia-50 p-2"
             onClick={handleComplete}
           >
             Complete task
-          </button>
+          </Button>
         </>
       )}
     </Layout>

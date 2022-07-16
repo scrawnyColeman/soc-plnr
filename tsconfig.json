@@ -22,6 +22,24 @@
       "components": [
         "src/components/index.ts"
       ],
+      "atoms/*": [
+        "src/components/atoms/*"
+      ],
+      "atoms": [
+        "src/components/atoms/index.ts"
+      ],
+      "molecules/*": [
+        "src/components/molecules/*"
+      ],
+      "molecules": [
+        "src/components/molecules/index.ts"
+      ],
+      "organisms/*": [
+        "src/components/organisms/*"
+      ],
+      "organisms": [
+        "src/components/organisms/index.ts"
+      ],
       "views/*": [
         "src/views/*"
       ],
@@ -54,7 +72,8 @@
       ],
     }
   },
-  "include": ["next-env.d.ts",
+  "include": [
+    "next-env.d.ts",
     "src",
     "pages",
     "assets"

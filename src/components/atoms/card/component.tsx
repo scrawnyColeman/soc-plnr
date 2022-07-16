@@ -1,14 +1,11 @@
-import React from "react";
+import React, { FunctionComponent, ReactNode } from "react";
 
 export type CardProps = {
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
 };
 
-const Card: React.FunctionComponent<CardProps> = ({
-  children,
-  className = "",
-}) => (
+const Card: FunctionComponent<CardProps> = ({ children, className = "" }) => (
   <div
     className={`p-3 rounded-lg shadow-lg bg-white min-w-64 max-w-full overflow-auto ${className}`}
   >

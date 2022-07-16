@@ -1,8 +1,8 @@
-// Header.tsx
 import React from "react";
-import Link from "next/link";
 import { useRouter } from "next/router";
 import { signIn, signOut, useSession } from "next-auth/react";
+
+import { Button, Link, Nav } from "components/atoms";
 import { links } from "./constants";
 
 type HeaderProps = {};
@@ -10,8 +10,7 @@ type HeaderProps = {};
 const Header: React.FunctionComponent<HeaderProps> = ({}) => {
   const router = useRouter();
 
-  const isActive: (pathname: string) => boolean = (pathname) =>
-    router.pathname === pathname;
+  const isActive = (pathname: string) => router.pathname === pathname;
 
   const { data: session, status } = useSession();
 
@@ -22,40 +21,31 @@ const Header: React.FunctionComponent<HeaderProps> = ({}) => {
       <p className="invisible md:visible">
         Hey, {(session?.user?.name as string).split(" ")[0]}!
       </p>
-      <button className="hover:text-purple-500" onClick={() => signOut()}>
+      <Button className="hover:text-purple-500" onClick={() => signOut()}>
         <a>Log out</a>
-      </button>
+      </Button>
     </div>
   ) : status === "loading" ? (
     <div>loading</div>
   ) : (
     <div className="right">
-      <button onClick={() => signIn("google")}>
+      <Button onClick={() => signIn("google")}>
         <a data-active={isActive("/signup")}>Log in</a>
-      </button>
+      </Button>
     </div>
   );
 
   return (
-    <nav className="w-100 flex justify-between items-center p-3 bg-slate-700 text-violet-100">
+    <Nav>
       <div className="flex gap-4">
         {links
           .filter((link) => link.authed === isAuthed)
-          .map((link) => (
-            <Link key={link.path} href={link.path}>
-              <a
-                className={`hover:text-purple-700 ${
-                  isActive(link.path) ? "text-purple-300" : ""
-                }`}
-                data-active={isActive("/")}
-              >
-                {link.text}
-              </a>
-            </Link>
+          .map(({ path, text }) => (
+            <Link isActive={isActive} href={path} text={text} />
           ))}
       </div>
       {right}
-    </nav>
+    </Nav>
   );
 };
 

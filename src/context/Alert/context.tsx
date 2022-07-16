@@ -1,38 +1,42 @@
 import React, { useState, createContext, useCallback, ReactNode } from "react";
 
-type AlertType = "error" | "warning";
+export enum AlertType {
+  ERROR = "ERROR",
+  SUCCESS = "SUCCESS",
+}
 
-type State =
-  | {
-      type?: AlertType;
-      text?: string;
-      onPress?: () => void;
-    }
-  | undefined;
+type State = {
+  type?: keyof typeof AlertType;
+  text?: string;
+};
 
 type Context = {
   alertState: State;
-  setAlert: ({ type, text }: { type: AlertType; text: string }) => void;
+  setAlert: ({
+    type,
+    text,
+  }: {
+    type: keyof typeof AlertType;
+    text: string;
+  }) => void;
   clearAlert: () => void;
 };
 
 export const AlertContext = createContext({} as Context);
 
 export const AlertsProvider = ({ children }: { children: ReactNode }) => {
-  const [alertState, setAlertState] = useState<State>();
+  const [alertState, setAlertState] = useState<State>({});
 
   const setAlert = useCallback(
-    ({ type, text }: { type: AlertType; text: string }) => {
-      return setAlertState({
+    ({ type, text }: { type: keyof typeof AlertType; text: string }) =>
+      setAlertState({
         type,
         text,
-        onPress: () => setAlertState(undefined),
-      });
-    },
+      }),
     []
   );
 
-  const clearAlert = useCallback(() => setAlertState(undefined), []);
+  const clearAlert = useCallback(() => setAlertState({}), []);
 
   return (
     <AlertContext.Provider value={{ alertState, setAlert, clearAlert }}>

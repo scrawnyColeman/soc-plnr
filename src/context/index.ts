@@ -1,1 +1,1 @@
-export { AlertContext, AlertsProvider } from "./Alert";
+export { AlertContext, AlertsProvider, AlertType } from "./Alert";

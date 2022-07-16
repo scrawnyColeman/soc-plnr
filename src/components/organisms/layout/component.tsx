@@ -1,7 +1,8 @@
-import { Header } from "components";
-import ErrorBar from "components/error/component";
 import React from "react";
 import { useAlert } from "src/hooks/context";
+
+import { AlertBar } from "molecules";
+import { Header } from "organisms";
 
 export type LayoutProps = {
   children: React.ReactNode;
@@ -17,17 +18,12 @@ const Layout: React.FunctionComponent<LayoutProps> = ({
   return (
     <>
       <Header />
-      <div className={`bg-slate-800 ${className}`}>
-        {
-          /* Content */
-          children
-        }
-      </div>
+      <div className={`bg-slate-800 ${className}`}>{children}</div>
 
-      <ErrorBar
-        type={alertState?.type || "error"}
+      <AlertBar
+        type={alertState?.type}
         message={alertState?.text}
-        onClose={clearAlert}
+        onClick={clearAlert}
       />
     </>
   );

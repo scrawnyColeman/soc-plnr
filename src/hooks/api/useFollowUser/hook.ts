@@ -1,5 +1,5 @@
 import { useAlert } from "hooks/context";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 
 type Args = {
   email: string;
@@ -21,7 +21,7 @@ export const useFollowUser: Hook = () => {
     console.log({ result });
 
     if (!response.ok && result.message) {
-      setAlert({ text: result.message, type: "error" });
+      setAlert({ text: result.message, type: "ERROR" });
     }
   }, []);
 

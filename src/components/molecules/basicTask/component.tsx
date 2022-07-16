@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FunctionComponent } from "react";
 import Link from "next/link";
 
 import { Button } from "atoms";
@@ -11,7 +11,7 @@ export type BasicTaskProps = {
   };
 };
 
-const BasicTask: React.FunctionComponent<BasicTaskProps> = ({ task }) => (
+const BasicTask: FunctionComponent<BasicTaskProps> = ({ task }) => (
   <div className="hover:bg-slate-50 flex gap-3 p-4 rounded-lg shadow-lg bg-white w-full  justify-between items-center">
     <div>
       <h3 className="font-bold">{task.title}</h3>
@@ -19,7 +19,7 @@ const BasicTask: React.FunctionComponent<BasicTaskProps> = ({ task }) => (
     </div>
     <div>
       <Link href={`/t/${task.id}`}>
-        <Button className="border-solid border border-fuchsia-700 rounded-2xl py-1 px-3 hover:bg-fuchsia-50">
+        <Button>
           <a>View</a>
         </Button>
       </Link>

@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from "react";
 import { Toast } from "atoms";
 import { AlertType } from "src/context";
-import { ErrorIcon, SuccessIcon } from "components/icons";
+import { ErrorIcon, SuccessIcon } from "icons";
 
 type Props = {
   message?: string;
@@ -20,13 +20,17 @@ const AlertBar: FunctionComponent<Props> = ({
   type,
 }: Props) => {
   if (message && type) {
-    const colour = type === "SUCCESS" ? "green" : "red";
     const Icon = icons[type];
 
     return (
       <Toast onClick={onClick}>
         <div
-          className={`inline-flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-lg text-${colour}-500 bg-${colour}-100`}
+          className={`flex items-center justify-center w-8 h-8 rounded-lg 
+          ${
+            type === "SUCCESS"
+              ? "text-green-500 bg-green-100"
+              : "text-red-500 bg-red-100"
+          }`}
         >
           <Icon />
         </div>

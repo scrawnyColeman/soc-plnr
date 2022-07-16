@@ -118,7 +118,7 @@ const TaskView: FunctionComponent<TaskViewProps> = ({}) => {
               autoFocus
             />
             <Button
-              className="text-fuchsia-50 border border-solid rounded-lg border-fuchsia-50 p-2"
+              className="text-purple-50 border border-solid rounded-lg border-purple-50 p-2"
               type="submit"
             >
               Assign email
@@ -128,7 +128,7 @@ const TaskView: FunctionComponent<TaskViewProps> = ({}) => {
           <hr className="my-2" />
 
           <Button
-            className="text-fuchsia-50 border border-solid rounded-lg border-fuchsia-50 p-2"
+            className="text-purple-50 border border-solid rounded-lg border-purple-50 p-2"
             onClick={handleComplete}
           >
             Complete task

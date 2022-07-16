@@ -14,8 +14,8 @@ const CustomLink: FunctionComponent<CustomLinkProps> = ({
 }) => (
   <Link href={href} {...linkProps}>
     <a
-      className={`hover:text-purple-700 ${
-        isActive(href.toString()) ? "text-purple-300" : ""
+      className={`hover:text-purple-400 ${
+        isActive(href.toString()) ? "text-purple-200" : ""
       }`}
       data-active={isActive("/")}
     >

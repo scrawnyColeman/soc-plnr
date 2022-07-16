@@ -13,15 +13,17 @@ export type LabelledInputProps = DetailedHTMLProps<
 > & {
   id: string;
   children: ReactNode;
+  wrapperClassName?: string;
 };
 
 const LabelledInput: FunctionComponent<LabelledInputProps> = ({
   id,
   children,
+  wrapperClassName,
   ...inputProps
 }) => {
   return (
-    <div className="flex flex-col gap-1 justify-center my-2">
+    <div className={`flex flex-col gap-1 justify-center ${wrapperClassName}`}>
       <Label htmlFor={id}>{children}</Label>
       <Input id={id} {...inputProps} />
     </div>

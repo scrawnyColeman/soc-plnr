@@ -8,11 +8,18 @@ export type ToastProps = {
 
 const Toast: FunctionComponent<ToastProps> = ({ onClick, children }) => (
   <div
-    className="flex items-center justify-between w-full max-w-xs p-4 mb-4 text-gray-500 bg-white rounded-lg shadow fixed bottom-2 left-2"
+    className="flex items-center justify-between w-full max-w-xs p-4 text-gray-500 bg-white rounded-lg shadow fixed bottom-4 left-4"
     role="alert"
   >
     {children}
-    <Button type="button" variant="TOAST" aria-label="Close" onClick={onClick}>
+    <Button
+      type="button"
+      variant="TOAST"
+      size="SM"
+      isRounded
+      aria-label="Close"
+      onClick={onClick}
+    >
       <span className="sr-only">Close</span>
       <svg
         className="w-5 h-5"

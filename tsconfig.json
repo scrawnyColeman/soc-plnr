@@ -16,12 +16,6 @@
     "incremental": true,
     "baseUrl": "./",
     "paths": {
-      "components/*": [
-        "src/components/*"
-      ],
-      "components": [
-        "src/components/index.ts"
-      ],
       "atoms/*": [
         "src/components/atoms/*"
       ],
@@ -39,6 +33,12 @@
       ],
       "organisms": [
         "src/components/organisms/index.ts"
+      ],
+      "icons/*": [
+        "src/components/icons/*"
+      ],
+      "icons": [
+        "src/components/icons/index.ts"
       ],
       "views/*": [
         "src/views/*"

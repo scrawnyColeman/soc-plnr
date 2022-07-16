@@ -1,18 +1,15 @@
-import React from "react";
+import React, { FunctionComponent, ReactNode } from "react";
 import { useAlert } from "src/hooks/context";
 
 import { AlertBar } from "molecules";
 import { Header } from "organisms";
 
 export type LayoutProps = {
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
 };
 
-const Layout: React.FunctionComponent<LayoutProps> = ({
-  children,
-  className,
-}) => {
+const Layout: FunctionComponent<LayoutProps> = ({ children, className }) => {
   const { alertState, clearAlert } = useAlert();
 
   return (

@@ -12,7 +12,7 @@ export type InputProps = DetailedHTMLProps<
 const Input: FunctionComponent<InputProps> = ({ className, ...inputProps }) => {
   return (
     <input
-      className={`w-full p-2 rounded-md border border-solid border-b-neutral-800 text-purple-600 ${inputProps}`}
+      className={`w-full p-2 px-3 rounded-md border border-solid border-b-neutral-800 text-purple-600 ${inputProps}`}
       {...inputProps}
     />
   );

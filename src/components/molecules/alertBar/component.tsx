@@ -14,11 +14,7 @@ const icons: { [key in AlertType]: FunctionComponent } = {
   SUCCESS: SuccessIcon,
 };
 
-const AlertBar: FunctionComponent<Props> = ({
-  onClick,
-  message,
-  type,
-}: Props) => {
+const AlertBar: FunctionComponent<Props> = ({ onClick, message, type }) => {
   if (message && type) {
     const Icon = icons[type];
 

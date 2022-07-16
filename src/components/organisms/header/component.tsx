@@ -41,7 +41,7 @@ const Header: FunctionComponent<HeaderProps> = ({}) => {
         {links
           .filter((link) => link.authed === isAuthed)
           .map(({ path, text }) => (
-            <Link isActive={isActive} href={path} text={text} />
+            <Link key={path} isActive={isActive} href={path} text={text} />
           ))}
       </div>
       {right}

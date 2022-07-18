@@ -5,33 +5,25 @@ import React, {
   useEffect,
   useState,
 } from "react";
-import { useSession } from "next-auth/react";
 
 import { useGetFollows, useFollowUser } from "hooks";
 import { Card, Button, Spinner } from "atoms";
-import { Layout } from "organisms";
-
+import { LabelledInput } from "molecules";
 import { profilePic } from "assets";
-import { LabelledInput } from "molecules/labelledInput";
 
 export type SocialViewProps = {};
 
 const SocialView: FunctionComponent<SocialViewProps> = ({}) => {
-  const session = useSession();
   const [email, setEmail] = useState<string>("");
 
-  const [loading, follows, refreshFollows] = useGetFollows();
+  const [isFollowsLoading, follows, refreshFollows] = useGetFollows();
   const [isFollowing, followUser] = useFollowUser();
 
   useEffect(() => {
     (async () => {
-      if (session !== null) {
-        refreshFollows();
-      }
+      refreshFollows();
     })();
-  }, [session]);
-
-  const isLoading = session === null || loading;
+  }, []);
 
   const handleChange: ChangeEventHandler<HTMLInputElement> = (e) => {
     setEmail(e.target.value);
@@ -49,9 +41,9 @@ const SocialView: FunctionComponent<SocialViewProps> = ({}) => {
   };
 
   return (
-    <Layout className="p-6 w-full h-100 flex flex-wrap  gap-2">
+    <>
       <Card className=" w-full flex flex-col gap-2 mt-2">
-        {isLoading ? (
+        {isFollowsLoading ? (
           <Spinner />
         ) : (
           <div className="flex flex-col gap-4">
@@ -124,7 +116,7 @@ const SocialView: FunctionComponent<SocialViewProps> = ({}) => {
           </Button>
         </form>
       </div>
-    </Layout>
+    </>
   );
 };
 

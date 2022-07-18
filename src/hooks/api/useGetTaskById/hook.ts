@@ -1,6 +1,11 @@
+import { useAlert } from "hooks/context";
 import { useCallback, useState } from "react";
 
-type Hook = () => [TaskStep | undefined, (id: string) => Promise<TaskStep>];
+type Hook = () => [
+  boolean,
+  TaskStep | undefined,
+  (id: string) => Promise<void>
+];
 
 type TaskStep = {
   id: string;
@@ -22,18 +27,29 @@ type TaskStep = {
 };
 
 export const useGetTaskStepById: Hook = () => {
+  const [isLoading, setLoading] = useState<boolean>(false);
   const [state, setState] = useState<TaskStep | undefined>();
 
+  const { setAlert } = useAlert();
+
   const getTaskStepById = useCallback(async (id: string) => {
-    const response = await fetch(`/api/task?t=${id}`);
-    const result = await response.json();
+    setLoading(true);
+    try {
+      const response = await fetch(`/api/task?t=${id}`);
+      const result = await response.json();
 
-    if (response.ok) {
-      setState(result);
+      if (response.ok) {
+        setState(result);
+      } else if ("message" in result) {
+        throw new Error(result.message);
+      }
+    } catch (e) {
+      const message = (e as Error).message;
+      setAlert({ type: "ERROR", text: message });
+    } finally {
+      setLoading(false);
     }
-
-    return result;
   }, []);
 
-  return [state, getTaskStepById];
+  return [isLoading, state, getTaskStepById];
 };

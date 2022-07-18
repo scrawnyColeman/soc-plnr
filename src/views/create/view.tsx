@@ -1,13 +1,7 @@
 import React, { FunctionComponent } from "react";
 
-import { Layout, CreateTaskForm } from "organisms";
+import { CreateTaskForm } from "organisms";
 
-const CreateView: FunctionComponent = () => (
-  <Layout>
-    <div className="p-4 text-purple-100">
-      <CreateTaskForm />
-    </div>
-  </Layout>
-);
+const CreateView: FunctionComponent = () => <CreateTaskForm />;
 
 export default CreateView;

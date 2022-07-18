@@ -16,6 +16,9 @@
     "incremental": true,
     "baseUrl": "./",
     "paths": {
+      "src/*": [
+        "src/*"
+      ],
       "atoms/*": [
         "src/components/atoms/*"
       ],
@@ -34,17 +37,17 @@
       "organisms": [
         "src/components/organisms/index.ts"
       ],
-      "icons/*": [
-        "src/components/icons/*"
-      ],
-      "icons": [
-        "src/components/icons/index.ts"
-      ],
       "views/*": [
         "src/views/*"
       ],
       "views": [
         "src/views/index.ts"
+      ],
+      "wrappers/*": [
+        "src/components/wrappers/*"
+      ],
+      "wrappers": [
+        "src/components/wrappers/index.ts"
       ],
       "lib/*": [
         "./lib/*"

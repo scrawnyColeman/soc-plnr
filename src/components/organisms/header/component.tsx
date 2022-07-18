@@ -9,30 +9,28 @@ type HeaderProps = {};
 
 const Header: FunctionComponent<HeaderProps> = ({}) => {
   const router = useRouter();
+  const { data: session, status } = useSession();
 
   const isActive = (pathname: string) => router.pathname === pathname;
 
-  const { data: session, status } = useSession();
-
+  const isLoading = status === "loading";
   const isAuthed = status === "authenticated";
 
   const right = isAuthed ? (
-    <div className="flex items-center gap-3">
-      <p className="invisible md:visible">
+    <>
+      <p className="invisible md:visible md:mr-0">
         Hey, {(session?.user?.name as string).split(" ")[0]}!
       </p>
-      <Button className="p-1" onClick={() => signOut()}>
+      <Button size="SM" onClick={() => signOut()}>
         <a>Log out</a>
       </Button>
-    </div>
-  ) : status === "loading" ? (
+    </>
+  ) : isLoading ? (
     <div>loading</div>
   ) : (
-    <div className="flex items-center">
-      <Button className="p-1" onClick={() => signIn("google")}>
-        <a data-active={isActive("/signup")}>Log in</a>
-      </Button>
-    </div>
+    <Button size="SM" onClick={() => signIn("google")}>
+      <a data-active={isActive("/signup")}>Log in</a>
+    </Button>
   );
 
   return (
@@ -44,7 +42,7 @@ const Header: FunctionComponent<HeaderProps> = ({}) => {
             <Link key={path} isActive={isActive} href={path} text={text} />
           ))}
       </div>
-      {right}
+      <div className="flex items-center gap-2">{right}</div>
     </Nav>
   );
 };

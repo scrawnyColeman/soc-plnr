@@ -14,7 +14,7 @@ const Toast: FunctionComponent<ToastProps> = ({ onClick, children }) => (
     {children}
     <Button
       type="button"
-      variant="TOAST"
+      hierarchy="TOAST"
       size="SM"
       isRounded
       aria-label="Close"

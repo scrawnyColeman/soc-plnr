@@ -1,5 +1,5 @@
 import React, { FunctionComponent } from "react";
-import { FaCross, FaCheck } from "react-icons/fa";
+import { FaTimes, FaCheck } from "react-icons/fa";
 
 import { Toast } from "atoms";
 import { AlertType } from "src/context";
@@ -11,7 +11,7 @@ type Props = {
 };
 
 const icons: { [key in AlertType]: FunctionComponent } = {
-  ERROR: FaCross,
+  ERROR: FaTimes,
   SUCCESS: FaCheck,
 };
 

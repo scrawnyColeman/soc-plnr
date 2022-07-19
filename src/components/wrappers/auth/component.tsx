@@ -1,18 +1,18 @@
 import React, { FunctionComponent, ReactNode, useEffect } from "react";
 
-import router from "next/router";
+import router, { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
 
 import { Spinner } from "atoms";
-import { PathNames } from "src/constants";
-import { Forbidden } from "src/components/organisms";
+import { Forbidden } from "organisms";
+import { PageVisibility, PathNames } from "src/constants";
 
 type RedirectorProps = {
   redirectPath: keyof typeof PathNames;
 };
 
 type ErrorScreenProps = {
-  fallbackView?: ReactNode;
+  blurredView?: ReactNode;
 };
 
 export type AuthWrapperProps = XOR<RedirectorProps, ErrorScreenProps> & {
@@ -21,10 +21,13 @@ export type AuthWrapperProps = XOR<RedirectorProps, ErrorScreenProps> & {
 
 const AuthWrapper: FunctionComponent<AuthWrapperProps> = ({
   redirectPath,
-  fallbackView,
+  blurredView,
   children,
 }) => {
   const { status } = useSession();
+  const { pathname } = useRouter();
+
+  const visibility = PageVisibility[pathname as keyof typeof PathNames];
 
   useEffect(() => {
     if (typeof redirectPath === "string") {
@@ -37,10 +40,17 @@ const AuthWrapper: FunctionComponent<AuthWrapperProps> = ({
       return <>{children}</>;
     }
     case "unauthenticated": {
-      if (Boolean(fallbackView)) {
-        return <>{fallbackView}</>;
+      if (visibility === "BLURRED") {
+        return blurredView ? (
+          <>{blurredView}</>
+        ) : (
+          <div>Building in progress</div>
+        );
+      } else if (visibility === "PUBLIC") {
+        return <>{children}</>;
+      } else {
+        return <Forbidden />;
       }
-      return <Forbidden />;
     }
     case "loading": {
       return (

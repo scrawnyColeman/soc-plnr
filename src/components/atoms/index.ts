@@ -8,3 +8,4 @@ export { Input } from "./input";
 export { Label } from "./label";
 export { TextArea } from "./textarea";
 export { FullScreen } from "./fullscreen";
+export { Preview } from "./preview";

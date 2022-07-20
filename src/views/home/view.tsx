@@ -1,8 +1,7 @@
 import React, { FunctionComponent, useEffect } from "react";
 
 import { useGetAssignedTasks } from "hooks";
-import { Card, Spinner } from "atoms";
-import { BasicTask } from "molecules";
+import { Card, Spinner, Preview } from "atoms";
 
 export type HomeViewProps = {};
 
@@ -22,7 +21,7 @@ const HomeView: FunctionComponent<HomeViewProps> = ({}) => {
       <h3 className="text-lg font-semibold">Your tasks:</h3>
       {Array.isArray(tasks) ? (
         tasks.map((task: { title: string; content: string; id: string }) => (
-          <BasicTask key={task.id} task={task} />
+          <Preview identifier={task.id} pathname="TASK" title={task.title} />
         ))
       ) : (
         <p className="">

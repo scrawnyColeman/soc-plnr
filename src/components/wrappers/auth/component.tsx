@@ -30,10 +30,10 @@ const AuthWrapper: FunctionComponent<AuthWrapperProps> = ({
   const visibility = PageVisibility[pathname as keyof typeof PathNames];
 
   useEffect(() => {
-    if (typeof redirectPath === "string") {
+    if (typeof redirectPath === "string" && status === "unauthenticated") {
       router.push(PathNames[redirectPath]);
     }
-  }, [redirectPath]);
+  }, [redirectPath, status]);
 
   switch (status) {
     case "authenticated": {

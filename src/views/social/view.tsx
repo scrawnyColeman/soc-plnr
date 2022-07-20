@@ -7,7 +7,7 @@ import React, {
 } from "react";
 
 import { useGetFollows, useFollowUser } from "hooks";
-import { Card, Button, Spinner } from "atoms";
+import { Card, Button, Spinner, Preview } from "atoms";
 import { LabelledInput } from "molecules";
 import { profilePic } from "assets";
 
@@ -17,7 +17,7 @@ const SocialView: FunctionComponent<SocialViewProps> = ({}) => {
   const [email, setEmail] = useState<string>("");
 
   const [isFollowsLoading, follows, refreshFollows] = useGetFollows();
-  const [isFollowing, followUser] = useFollowUser();
+  const [isFollowingLoading, followUser] = useFollowUser();
 
   useEffect(() => {
     (async () => {
@@ -40,57 +40,45 @@ const SocialView: FunctionComponent<SocialViewProps> = ({}) => {
     return;
   };
 
-  return (
+  return isFollowsLoading ? (
+    <Spinner />
+  ) : (
     <>
-      <Card className=" w-full flex flex-col gap-2 mt-2">
-        {isFollowsLoading ? (
-          <Spinner />
+      <Card className="h-72 overflow-y-auto w-full flex flex-col gap-2 md:w-[calc(50%-0.25rem)]">
+        <h3 className="text-lg font-semibold">Followers:</h3>
+        {Array.isArray(follows.followers) ? (
+          follows.followers.map(({ follower }) => (
+            <Preview
+              identifier={follower.id}
+              pathname="SOCIAL"
+              title={follower.name}
+              imagePath={profilePic.src}
+            />
+          ))
         ) : (
-          <div className="flex flex-col gap-4">
-            <div className="flex flex-col gap-2">
-              <h3>Followers:</h3>
-              <div className="flex flex-wrap gap-4">
-                {follows.followers.map(({ follower }) => (
-                  <span
-                    className="flex items-center h-10 gap-2"
-                    key={`followedBy-${follower.id}`}
-                    title={follower.email}
-                  >
-                    <img
-                      className="rounded-full"
-                      width={48}
-                      height={48}
-                      src={follower.image || profilePic.src}
-                    />
-                    <p>{follower.name}</p>
-                  </span>
-                ))}
-              </div>
-            </div>
-            <hr className="my-1" />
-            <div className="flex flex-col gap-2">
-              <h3>Following</h3>
-              <div className="flex flex-wrap gap-4">
-                {follows.following.map(({ following }) => (
-                  <span
-                    className="flex items-center h-10 gap-2"
-                    key={`following-${following.id}`}
-                    title={following.email}
-                  >
-                    <img
-                      className="rounded-full"
-                      width={48}
-                      height={48}
-                      src={following.image || profilePic.src}
-                    />
-                    <p>{following.name}</p>
-                  </span>
-                ))}
-              </div>
-            </div>
-          </div>
+          <p className="">
+            Looking a bit bare here. Why not create your first task?
+          </p>
         )}
       </Card>
+      <Card className="h-72 overflow-y-auto w-full flex flex-col gap-2 md:w-[calc(50%-0.25rem)]">
+        <h3 className="text-lg font-semibold">Following:</h3>
+        {Array.isArray(follows.following) ? (
+          follows.following.map(({ following }) => (
+            <Preview
+              identifier={following.id}
+              pathname="SOCIAL"
+              title={following.name}
+              imagePath={profilePic.src}
+            />
+          ))
+        ) : (
+          <p className="">
+            Looking a bit bare here. Why not create your first task?
+          </p>
+        )}
+      </Card>
+
       <div className="flex flex-col justify-center items-center gap-3 w-full mt-3">
         <form
           className="w-full flex flex-col items-start gap-3 md:flex-row md:items-end"
@@ -109,8 +97,8 @@ const SocialView: FunctionComponent<SocialViewProps> = ({}) => {
           <Button
             className="py-2 w-full md:w-auto"
             type="submit"
-            disabled={isFollowing || !email}
-            isLoading={isFollowing}
+            disabled={isFollowingLoading || !email}
+            isLoading={isFollowingLoading}
           >
             Follow friend
           </Button>

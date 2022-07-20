@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from "react";
 import { useRouter } from "next/router";
 import { signIn, signOut, useSession } from "next-auth/react";
+import { FaSignInAlt, FaSignOutAlt } from "react-icons/fa";
 
 import { Button, Link, Nav } from "atoms";
 import { links } from "./constants";
@@ -22,14 +23,18 @@ const Header: FunctionComponent<HeaderProps> = ({}) => {
         Hey, {(session?.user?.name as string).split(" ")[0]}!
       </p>
       <Button size="SM" onClick={() => signOut()}>
-        <a>Log out</a>
+        <a>
+          <FaSignOutAlt />
+        </a>
       </Button>
     </>
   ) : isLoading ? (
     <div>loading</div>
   ) : (
     <Button size="SM" onClick={() => signIn("google")}>
-      <a data-active={isActive("/signup")}>Log in</a>
+      <a>
+        <FaSignInAlt />
+      </a>
     </Button>
   );
 
